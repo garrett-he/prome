@@ -20,7 +20,7 @@ export function SearchBar() {
     );
 
     return (
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 justify-end">
             <Input
                 placeholder="Search prompts..."
                 value={localQuery}

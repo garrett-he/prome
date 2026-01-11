@@ -33,47 +33,56 @@ export function PromptDetail({ prompt, onRefresh }: PromptDetailProps) {
 
     return (
         <div className="w-full p-6">
-            {/* Breadcrumb */}
-            <div className="mb-4 flex items-center gap-2 text-sm text-muted-foreground">
-                <button
-                    type="button"
-                    className="flex items-center gap-1 hover:text-foreground"
-                    onClick={() => navigate("/vault")}
-                >
-                    <ArrowLeft className="h-4 w-4" />
-                    Back
-                </button>
-                {prompt.category_name && (
-                    <>
-                        <span>/</span>
-                        <span>{prompt.category_name}</span>
-                    </>
-                )}
-            </div>
-
-            {/* Header */}
-            <div className="mb-6 flex items-start justify-between">
-                <div>
-                    <h1 className="text-2xl font-bold">{prompt.title}</h1>
-                    {prompt.description && <p className="mt-1 text-muted-foreground">{prompt.description}</p>}
+            {/* Sticky toolbar */}
+            <div className="sticky top-0 z-10 -mx-6 -mt-6 mb-6 border-b bg-background px-6 pb-4 pt-5">
+                {/* Breadcrumb */}
+                <div className="mb-4 flex items-center gap-2 text-sm text-muted-foreground">
+                    <button
+                        type="button"
+                        className="flex items-center gap-1 hover:text-foreground"
+                        onClick={() => navigate("/vault")}
+                    >
+                        <ArrowLeft className="h-4 w-4" />
+                        Back
+                    </button>
+                    {prompt.category_name && (
+                        <>
+                            <span>/</span>
+                            <span>{prompt.category_name}</span>
+                        </>
+                    )}
                 </div>
-                <div className="flex gap-2">
-                    <Button variant="outline" size="sm" onClick={handleCopy}>
-                        <Copy className="mr-1 h-4 w-4" />
-                        Copy
-                    </Button>
-                    <Button variant="outline" size="sm" onClick={handleFavorite}>
-                        <Star className={`mr-1 h-4 w-4 ${prompt.favorite ? "fill-yellow-400 text-yellow-400" : ""}`} />
-                        {prompt.favorite ? "Unfavorite" : "Favorite"}
-                    </Button>
-                    <Button variant="outline" size="sm" onClick={() => navigate(`/vault/prompts/${prompt.id}/edit`)}>
-                        <Pencil className="mr-1 h-4 w-4" />
-                        Edit
-                    </Button>
-                    <Button variant="destructive" size="sm" onClick={handleDelete}>
-                        <Trash2 className="mr-1 h-4 w-4" />
-                        Delete
-                    </Button>
+
+                {/* Header */}
+                <div className="flex items-start justify-between">
+                    <div>
+                        <h1 className="text-2xl font-bold">{prompt.title}</h1>
+                        {prompt.description && <p className="mt-1 text-muted-foreground">{prompt.description}</p>}
+                    </div>
+                    <div className="flex gap-2">
+                        <Button variant="outline" size="sm" onClick={handleCopy}>
+                            <Copy className="mr-1 h-4 w-4" />
+                            Copy
+                        </Button>
+                        <Button variant="outline" size="sm" onClick={handleFavorite}>
+                            <Star
+                                className={`mr-1 h-4 w-4 ${prompt.favorite ? "fill-yellow-400 text-yellow-400" : ""}`}
+                            />
+                            {prompt.favorite ? "Unfavorite" : "Favorite"}
+                        </Button>
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => navigate(`/vault/prompts/${prompt.id}/edit`)}
+                        >
+                            <Pencil className="mr-1 h-4 w-4" />
+                            Edit
+                        </Button>
+                        <Button variant="destructive" size="sm" onClick={handleDelete}>
+                            <Trash2 className="mr-1 h-4 w-4" />
+                            Delete
+                        </Button>
+                    </div>
                 </div>
             </div>
 

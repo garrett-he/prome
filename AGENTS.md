@@ -34,7 +34,7 @@ Prome is a Tauri v2 desktop app for managing personal AI prompts. Frontend is Re
 
 ### Backend (`src-tauri/src/`)
 
-- `main.rs` - App entry, system tray setup, window close-to-tray handler.
+- `main.rs` - App entry and window setup.
 - `commands/` - Tauri command handlers grouped by entity: `vault`, `category`, `tag`, `prompt`.
 - `db/` - `connection.rs` (DbState, pool management), `models.rs` (structs), `migrations.rs` (schema + seed).
 - `config.rs` - App config persisted to JSON; tracks recent vaults.

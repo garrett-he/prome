@@ -12,7 +12,6 @@ A personal AI prompts management tool. Store, organize, and quickly retrieve you
 - **Quick copy** - One-click copy of prompt content to clipboard.
 - **Favorites & usage tracking** - Mark prompts as favorites and track how often each is used.
 - **Search & sort** - Full-text search with sort by updated, created, title, or usage.
-- **System tray** - Runs in the system tray. Close the window to minimize to tray; right-click the tray icon to show or exit.
 - **Auto-resume** - Reopens the last-used vault on startup.
 
 ## Tech Stack
@@ -79,7 +78,7 @@ prome/
 │   │   ├── db/               # Database connection, models, migrations
 │   │   ├── config.rs         # App config (recent vaults)
 │   │   ├── error.rs          # Error types
-│   │   └── main.rs           # App entry, tray, window setup
+│   │   └── main.rs           # App entry, window setup
 │   ├── Cargo.toml
 │   └── tauri.conf.json
 ├── tests/                    # Unit tests
