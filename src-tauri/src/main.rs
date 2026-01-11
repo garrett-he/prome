@@ -6,7 +6,7 @@ mod config;
 mod db;
 mod error;
 
-use commands::{category, config as config_commands, prompt, tag, vault};
+use commands::{attachment, category, config as config_commands, prompt, tag, vault};
 use db::connection::DbState;
 use std::sync::Mutex;
 use tauri::Manager;
@@ -47,6 +47,12 @@ fn main() {
             prompt::prompt_delete,
             prompt::prompt_copy,
             prompt::prompt_toggle_favorite,
+            // Attachment
+            attachment::attachment_add,
+            attachment::attachment_list,
+            attachment::attachment_get,
+            attachment::attachment_delete,
+            attachment::attachment_save_to,
         ])
         .build(tauri::generate_context!())
         .expect("error while building tauri application")

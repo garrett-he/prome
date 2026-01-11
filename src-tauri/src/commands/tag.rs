@@ -14,10 +14,7 @@ pub async fn tag_list(db_state: State<'_, DbState>) -> Result<Vec<Tag>, AppError
 }
 
 #[tauri::command]
-pub async fn tag_create(
-    params: TagCreate,
-    db_state: State<'_, DbState>,
-) -> Result<Tag, AppError> {
+pub async fn tag_create(params: TagCreate, db_state: State<'_, DbState>) -> Result<Tag, AppError> {
     if params.name.trim().is_empty() {
         return Err(AppError::Validation("Tag name cannot be empty".to_string()));
     }
@@ -35,10 +32,7 @@ pub async fn tag_create(
 }
 
 #[tauri::command]
-pub async fn tag_update(
-    params: TagUpdate,
-    db_state: State<'_, DbState>,
-) -> Result<Tag, AppError> {
+pub async fn tag_update(params: TagUpdate, db_state: State<'_, DbState>) -> Result<Tag, AppError> {
     if params.name.trim().is_empty() {
         return Err(AppError::Validation("Tag name cannot be empty".to_string()));
     }
@@ -59,10 +53,7 @@ pub async fn tag_update(
 }
 
 #[tauri::command]
-pub async fn tag_delete(
-    id: i64,
-    db_state: State<'_, DbState>,
-) -> Result<(), AppError> {
+pub async fn tag_delete(id: i64, db_state: State<'_, DbState>) -> Result<(), AppError> {
     let pool = db_state.get_pool()?;
     let result = sqlx::query("DELETE FROM tags WHERE id = ?")
         .bind(id)

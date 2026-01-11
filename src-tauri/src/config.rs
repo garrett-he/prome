@@ -1,6 +1,6 @@
 // src-tauri/src/config.rs
-use crate::error::AppError;
 use crate::db::models::VaultInfo;
+use crate::error::AppError;
 use std::fs;
 use std::path::PathBuf;
 
@@ -26,8 +26,7 @@ impl Default for AppConfig {
 
 impl AppConfig {
     pub fn config_path() -> Result<PathBuf, AppError> {
-        let home = dirs::home_dir()
-            .ok_or_else(|| AppError::Config("Cannot determine home directory".to_string()))?;
+        let home = dirs::home_dir().ok_or_else(|| AppError::Config("Cannot determine home directory".to_string()))?;
         let prome_dir = home.join(".prome");
         fs::create_dir_all(&prome_dir)?;
         Ok(prome_dir.join("config.json"))

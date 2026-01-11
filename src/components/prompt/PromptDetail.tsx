@@ -3,6 +3,7 @@ import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { AttachmentPreview } from "@/components/attachment/AttachmentPreview";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -121,6 +122,20 @@ export function PromptDetail({ prompt, onRefresh }: PromptDetailProps) {
             <div className="rounded-lg border bg-muted/50 p-6">
                 <pre className="whitespace-pre-wrap font-mono text-sm leading-relaxed">{prompt.content}</pre>
             </div>
+
+            {/* Attachments */}
+            {prompt.attachments.length > 0 && (
+                <div className="mt-6">
+                    <h2 className="mb-3 text-sm font-semibold text-muted-foreground">
+                        {t("promptDetailAttachments.title")} ({prompt.attachments.length})
+                    </h2>
+                    <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                        {prompt.attachments.map((attachment) => (
+                            <AttachmentPreview key={attachment.id} attachment={attachment} />
+                        ))}
+                    </div>
+                </div>
+            )}
 
             {/* Meta */}
             <div className="mt-4 text-xs text-muted-foreground">

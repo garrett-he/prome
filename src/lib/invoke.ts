@@ -1,10 +1,13 @@
 import { invoke } from "@tauri-apps/api/core";
 import type {
     AppConfig,
+    AttachmentCreate,
+    AttachmentDetail,
     Category,
     CategoryCreate,
     CategoryUpdate,
     Paginated,
+    PromptAttachment,
     PromptCreate,
     PromptDetail,
     PromptListParams,
@@ -67,3 +70,16 @@ export const promptDelete = (id: number): Promise<void> => invoke("prompt_delete
 export const promptCopy = (id: number): Promise<void> => invoke("prompt_copy", { id });
 
 export const promptToggleFavorite = (id: number): Promise<PromptDetail> => invoke("prompt_toggle_favorite", { id });
+
+// Attachment
+export const attachmentAdd = (params: AttachmentCreate): Promise<PromptAttachment> =>
+    invoke("attachment_add", { params });
+
+export const attachmentList = (promptId: number): Promise<PromptAttachment[]> =>
+    invoke("attachment_list", { promptId });
+
+export const attachmentGet = (id: number): Promise<AttachmentDetail> => invoke("attachment_get", { id });
+
+export const attachmentDelete = (id: number): Promise<void> => invoke("attachment_delete", { id });
+
+export const attachmentSaveTo = (id: number): Promise<void> => invoke("attachment_save_to", { id });

@@ -44,7 +44,20 @@
         "updated": "Prompt updated",
         "created": "Prompt created",
         "editTitle": "Edit Prompt",
-        "newTitle": "New Prompt"
+        "newTitle": "New Prompt",
+        "attachments": "Attachments",
+        "addAttachments": "Add attachments",
+        "remove": "Remove",
+        "uploading": "Uploading..."
+    },
+    "promptDetailAttachments": {
+        "title": "Attachments",
+        "download": "Download",
+        "saved": "Attachment saved",
+        "saveFailed": "Failed to save attachment",
+        "remove": "Remove",
+        "removed": "Attachment removed",
+        "removeFailed": "Failed to remove attachment"
     },
     "search": {
         "placeholder": "Search prompts...",

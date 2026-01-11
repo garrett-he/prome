@@ -1,7 +1,7 @@
 // src-tauri/src/db/connection.rs
-use std::sync::Mutex;
 use sqlx::sqlite::{SqliteConnectOptions, SqlitePoolOptions};
 use sqlx::SqlitePool;
+use std::sync::Mutex;
 
 pub struct DbState {
     pub pool: Mutex<Option<SqlitePool>>,
@@ -9,18 +9,15 @@ pub struct DbState {
 
 impl DbState {
     pub fn new() -> Self {
-        Self {
-            pool: Mutex::new(None),
-        }
+        Self { pool: Mutex::new(None) }
     }
 
     pub fn get_pool(&self) -> Result<SqlitePool, crate::error::AppError> {
-        let guard = self.pool.lock().map_err(|e| {
-            crate::error::AppError::Config(format!("Lock poisoned: {e}"))
-        })?;
-        guard
-            .clone()
-            .ok_or(crate::error::AppError::NoVaultOpen)
+        let guard = self
+            .pool
+            .lock()
+            .map_err(|e| crate::error::AppError::Config(format!("Lock poisoned: {e}")))?;
+        guard.clone().ok_or(crate::error::AppError::NoVaultOpen)
     }
 
     pub fn set_pool(&self, new_pool: SqlitePool) {
@@ -37,9 +34,7 @@ impl DbState {
 }
 
 pub async fn create_pool(path: &str) -> Result<SqlitePool, crate::error::AppError> {
-    let options = SqliteConnectOptions::new()
-        .filename(path)
-        .create_if_missing(true);
+    let options = SqliteConnectOptions::new().filename(path).create_if_missing(true);
     let pool = SqlitePoolOptions::new()
         .max_connections(5)
         .connect_with(options)

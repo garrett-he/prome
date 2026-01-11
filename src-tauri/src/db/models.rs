@@ -2,6 +2,35 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize, sqlx::FromRow)]
+pub struct PromptAttachment {
+    pub id: i64,
+    pub prompt_id: i64,
+    pub filename: String,
+    pub mime_type: Option<String>,
+    pub size: i64,
+    pub created_at: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct AttachmentCreate {
+    pub prompt_id: i64,
+    pub filename: String,
+    pub mime_type: Option<String>,
+    pub data: Vec<u8>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct AttachmentDetail {
+    pub id: i64,
+    pub prompt_id: i64,
+    pub filename: String,
+    pub mime_type: Option<String>,
+    pub size: i64,
+    pub created_at: String,
+    pub data_base64: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, sqlx::FromRow)]
 pub struct Category {
     pub id: i64,
     pub name: String,
@@ -110,6 +139,7 @@ pub struct PromptDetail {
     pub favorite: bool,
     pub usage_count: i64,
     pub tags: Vec<Tag>,
+    pub attachments: Vec<PromptAttachment>,
     pub created_at: String,
     pub updated_at: String,
 }

@@ -46,6 +46,26 @@ export interface PromptSummary {
     updated_at: string;
 }
 
+export interface PromptAttachment {
+    id: number;
+    prompt_id: number;
+    filename: string;
+    mime_type: string | null;
+    size: number;
+    created_at: string;
+}
+
+export interface AttachmentDetail extends PromptAttachment {
+    data_base64: string;
+}
+
+export interface AttachmentCreate {
+    prompt_id: number;
+    filename: string;
+    mime_type?: string | null;
+    data: number[];
+}
+
 export interface PromptDetail {
     id: number;
     title: string;
@@ -57,6 +77,7 @@ export interface PromptDetail {
     favorite: boolean;
     usage_count: number;
     tags: Tag[];
+    attachments: PromptAttachment[];
     created_at: string;
     updated_at: string;
 }

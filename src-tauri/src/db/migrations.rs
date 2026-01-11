@@ -75,6 +75,26 @@ pub async fn run_migrations(pool: &SqlitePool) -> Result<(), sqlx::Error> {
         .execute(pool)
         .await?;
 
+    sqlx::query(
+        r#"
+        CREATE TABLE IF NOT EXISTS prompt_attachments (
+            id         INTEGER PRIMARY KEY AUTOINCREMENT,
+            prompt_id  INTEGER NOT NULL REFERENCES prompts(id) ON DELETE CASCADE,
+            filename   TEXT    NOT NULL,
+            mime_type  TEXT,
+            size       INTEGER NOT NULL DEFAULT 0,
+            data       BLOB    NOT NULL,
+            created_at TEXT    NOT NULL DEFAULT (datetime('now'))
+        );
+        "#,
+    )
+    .execute(pool)
+    .await?;
+
+    sqlx::query("CREATE INDEX IF NOT EXISTS idx_prompt_attachments_prompt ON prompt_attachments(prompt_id)")
+        .execute(pool)
+        .await?;
+
     Ok(())
 }
 
@@ -86,14 +106,12 @@ pub async fn seed_default_categories(pool: &SqlitePool) -> Result<(), sqlx::Erro
         ("Conversation", "#16a34a", 3i64),
     ];
     for (name, color, sort_order) in defaults {
-        sqlx::query(
-            "INSERT OR IGNORE INTO categories (name, color, sort_order) VALUES (?, ?, ?)",
-        )
-        .bind(name)
-        .bind(color)
-        .bind(sort_order)
-        .execute(pool)
-        .await?;
+        sqlx::query("INSERT OR IGNORE INTO categories (name, color, sort_order) VALUES (?, ?, ?)")
+            .bind(name)
+            .bind(color)
+            .bind(sort_order)
+            .execute(pool)
+            .await?;
     }
     Ok(())
 }

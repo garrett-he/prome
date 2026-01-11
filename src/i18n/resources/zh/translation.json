@@ -44,7 +44,20 @@
         "updated": "提示词已更新",
         "created": "提示词已创建",
         "editTitle": "编辑提示词",
-        "newTitle": "新建提示词"
+        "newTitle": "新建提示词",
+        "attachments": "附件",
+        "addAttachments": "添加附件",
+        "remove": "移除",
+        "uploading": "上传中..."
+    },
+    "promptDetailAttachments": {
+        "title": "附件",
+        "download": "下载",
+        "saved": "附件已保存",
+        "saveFailed": "附件保存失败",
+        "remove": "移除",
+        "removed": "附件已移除",
+        "removeFailed": "附件移除失败"
     },
     "search": {
         "placeholder": "搜索提示词...",

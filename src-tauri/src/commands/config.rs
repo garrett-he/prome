@@ -6,9 +6,9 @@ use tauri::State;
 
 #[tauri::command]
 pub async fn config_get(config_state: State<'_, Mutex<AppConfig>>) -> Result<AppConfig, AppError> {
-    let _config = config_state.lock().map_err(|e| {
-        AppError::Config(format!("Lock poisoned: {e}"))
-    })?;
+    let _config = config_state
+        .lock()
+        .map_err(|e| AppError::Config(format!("Lock poisoned: {e}")))?;
     Ok(AppConfig::load().unwrap_or_default())
 }
 
@@ -20,9 +20,9 @@ pub async fn config_set_language(
     if language != "en" && language != "zh" {
         return Err(AppError::Validation(format!("Unsupported language: {language}")));
     }
-    let mut config = config_state.lock().map_err(|e| {
-        AppError::Config(format!("Lock poisoned: {e}"))
-    })?;
+    let mut config = config_state
+        .lock()
+        .map_err(|e| AppError::Config(format!("Lock poisoned: {e}")))?;
     *config = AppConfig::load().unwrap_or_default();
     config.language = language;
     config.save()?;

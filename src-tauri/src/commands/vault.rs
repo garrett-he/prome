@@ -50,9 +50,9 @@ pub async fn vault_create(
         prompt_count,
     };
 
-    let mut config = config_state.lock().map_err(|e| {
-        AppError::Config(format!("Lock poisoned: {e}"))
-    })?;
+    let mut config = config_state
+        .lock()
+        .map_err(|e| AppError::Config(format!("Lock poisoned: {e}")))?;
     // Reload from disk first
     *config = AppConfig::load().unwrap_or_default();
     config.upsert_recent_vault(info.clone());
@@ -72,7 +72,9 @@ pub async fn vault_open(
     }
     let db_path = db_path_from_dir(&path);
     if !Path::new(&db_path).exists() {
-        return Err(AppError::NotFound(format!("prome.db not found in vault directory: {path}")));
+        return Err(AppError::NotFound(format!(
+            "prome.db not found in vault directory: {path}"
+        )));
     }
     let pool = connection::create_pool(&db_path).await?;
     migrations::run_migrations(&pool).await?;
@@ -89,9 +91,9 @@ pub async fn vault_open(
         prompt_count,
     };
 
-    let mut config = config_state.lock().map_err(|e| {
-        AppError::Config(format!("Lock poisoned: {e}"))
-    })?;
+    let mut config = config_state
+        .lock()
+        .map_err(|e| AppError::Config(format!("Lock poisoned: {e}")))?;
     *config = AppConfig::load().unwrap_or_default();
     config.upsert_recent_vault(info.clone());
     config.save()?;
@@ -106,9 +108,7 @@ pub async fn vault_close(db_state: State<'_, DbState>) -> Result<(), AppError> {
 }
 
 #[tauri::command]
-pub async fn vault_get_current(
-    db_state: State<'_, DbState>,
-) -> Result<Option<VaultInfo>, AppError> {
+pub async fn vault_get_current(db_state: State<'_, DbState>) -> Result<Option<VaultInfo>, AppError> {
     // We only check if pool exists; full VaultInfo comes from config
     let pool = db_state.get_pool();
     match pool {
@@ -118,24 +118,19 @@ pub async fn vault_get_current(
 }
 
 #[tauri::command]
-pub async fn vault_list_recent(
-    config_state: State<'_, Mutex<AppConfig>>,
-) -> Result<Vec<VaultInfo>, AppError> {
-    let _config = config_state.lock().map_err(|e| {
-        AppError::Config(format!("Lock poisoned: {e}"))
-    })?;
+pub async fn vault_list_recent(config_state: State<'_, Mutex<AppConfig>>) -> Result<Vec<VaultInfo>, AppError> {
+    let _config = config_state
+        .lock()
+        .map_err(|e| AppError::Config(format!("Lock poisoned: {e}")))?;
     let loaded = AppConfig::load().unwrap_or_default();
     Ok(loaded.recent_vaults)
 }
 
 #[tauri::command]
-pub async fn vault_remove_recent(
-    path: String,
-    config_state: State<'_, Mutex<AppConfig>>,
-) -> Result<(), AppError> {
-    let mut config = config_state.lock().map_err(|e| {
-        AppError::Config(format!("Lock poisoned: {e}"))
-    })?;
+pub async fn vault_remove_recent(path: String, config_state: State<'_, Mutex<AppConfig>>) -> Result<(), AppError> {
+    let mut config = config_state
+        .lock()
+        .map_err(|e| AppError::Config(format!("Lock poisoned: {e}")))?;
     *config = AppConfig::load().unwrap_or_default();
     config.remove_recent_vault(&path);
     config.save()?;

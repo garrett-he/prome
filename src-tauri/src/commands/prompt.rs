@@ -1,8 +1,6 @@
 // src-tauri/src/commands/prompt.rs
 use crate::db::connection::DbState;
-use crate::db::models::{
-    Paginated, PromptCreate, PromptDetail, PromptListParams, PromptSummary, PromptUpdate, Tag,
-};
+use crate::db::models::{Paginated, PromptCreate, PromptDetail, PromptListParams, PromptSummary, PromptUpdate, Tag};
 use crate::error::AppError;
 use tauri::State;
 
@@ -42,9 +40,7 @@ pub async fn prompt_list(
 
     if let Some(ref search) = params.search {
         if !search.trim().is_empty() {
-            conditions.push(
-                "(p.title LIKE ? OR p.description LIKE ? OR p.content LIKE ?)".to_string(),
-            );
+            conditions.push("(p.title LIKE ? OR p.description LIKE ? OR p.content LIKE ?)".to_string());
             let pattern = format!("%{}%", search.trim());
             bind_values.push(pattern.clone());
             bind_values.push(pattern.clone());
@@ -74,8 +70,7 @@ pub async fn prompt_list(
     let total = count_query.fetch_one(&pool).await?;
 
     let items: Vec<PromptSummary> =
-        fetch_prompt_summaries(&pool, &where_clause, sort, &bind_values, offset, page_size)
-            .await?;
+        fetch_prompt_summaries(&pool, &where_clause, sort, &bind_values, offset, page_size).await?;
 
     Ok(Paginated {
         items,
@@ -156,10 +151,7 @@ async fn fetch_prompt_summaries(
 }
 
 #[tauri::command]
-pub async fn prompt_get(
-    id: i64,
-    db_state: State<'_, DbState>,
-) -> Result<PromptDetail, AppError> {
+pub async fn prompt_get(id: i64, db_state: State<'_, DbState>) -> Result<PromptDetail, AppError> {
     let pool = db_state.get_pool()?;
 
     let prompt = sqlx::query_as::<_, crate::db::models::Prompt>("SELECT * FROM prompts WHERE id = ?")
@@ -195,6 +187,8 @@ pub async fn prompt_get(
     .fetch_all(&pool)
     .await?;
 
+    let attachments = crate::commands::attachment::load_attachments(&pool, id).await?;
+
     Ok(PromptDetail {
         id: prompt.id,
         title: prompt.title,
@@ -206,16 +200,14 @@ pub async fn prompt_get(
         favorite: prompt.favorite != 0,
         usage_count: prompt.usage_count,
         tags,
+        attachments,
         created_at: prompt.created_at,
         updated_at: prompt.updated_at,
     })
 }
 
 #[tauri::command]
-pub async fn prompt_create(
-    params: PromptCreate,
-    db_state: State<'_, DbState>,
-) -> Result<PromptDetail, AppError> {
+pub async fn prompt_create(params: PromptCreate, db_state: State<'_, DbState>) -> Result<PromptDetail, AppError> {
     if params.title.trim().is_empty() {
         return Err(AppError::Validation("Title is required".to_string()));
     }
@@ -225,14 +217,13 @@ pub async fn prompt_create(
     let pool = db_state.get_pool()?;
     let description = params.description.unwrap_or_default();
 
-    let result =
-        sqlx::query("INSERT INTO prompts (title, content, description, category_id) VALUES (?, ?, ?, ?)")
-            .bind(&params.title)
-            .bind(&params.content)
-            .bind(&description)
-            .bind(params.category_id)
-            .execute(&pool)
-            .await?;
+    let result = sqlx::query("INSERT INTO prompts (title, content, description, category_id) VALUES (?, ?, ?, ?)")
+        .bind(&params.title)
+        .bind(&params.content)
+        .bind(&description)
+        .bind(params.category_id)
+        .execute(&pool)
+        .await?;
 
     let id = result.last_insert_rowid();
 
@@ -250,10 +241,7 @@ pub async fn prompt_create(
 }
 
 #[tauri::command]
-pub async fn prompt_update(
-    params: PromptUpdate,
-    db_state: State<'_, DbState>,
-) -> Result<PromptDetail, AppError> {
+pub async fn prompt_update(params: PromptUpdate, db_state: State<'_, DbState>) -> Result<PromptDetail, AppError> {
     let pool = db_state.get_pool()?;
     let existing = sqlx::query_as::<_, crate::db::models::Prompt>("SELECT * FROM prompts WHERE id = ?")
         .bind(params.id)
@@ -317,11 +305,7 @@ pub async fn prompt_delete(id: i64, db_state: State<'_, DbState>) -> Result<(), 
 }
 
 #[tauri::command]
-pub async fn prompt_copy(
-    id: i64,
-    db_state: State<'_, DbState>,
-    app: tauri::AppHandle,
-) -> Result<(), AppError> {
+pub async fn prompt_copy(id: i64, db_state: State<'_, DbState>, app: tauri::AppHandle) -> Result<(), AppError> {
     let pool = db_state.get_pool()?;
     let content: String = sqlx::query_scalar("SELECT content FROM prompts WHERE id = ?")
         .bind(id)
@@ -345,10 +329,7 @@ pub async fn prompt_copy(
 }
 
 #[tauri::command]
-pub async fn prompt_toggle_favorite(
-    id: i64,
-    db_state: State<'_, DbState>,
-) -> Result<PromptDetail, AppError> {
+pub async fn prompt_toggle_favorite(id: i64, db_state: State<'_, DbState>) -> Result<PromptDetail, AppError> {
     let pool = db_state.get_pool()?;
     sqlx::query(
         "UPDATE prompts SET favorite = CASE WHEN favorite = 0 THEN 1 ELSE 0 END, updated_at = datetime('now') WHERE id = ?",
