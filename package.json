@@ -35,7 +35,8 @@
         "prepare": "simple-git-hooks",
         "changeset": "changeset",
         "version": "changeset version",
-        "tauri": "tauri"
+        "tauri": "tauri",
+        "icons:generate": "node src-tauri/icons/generate-icons.mjs"
     },
     "dependencies": {
         "@radix-ui/react-context-menu": "^2.3.3",
