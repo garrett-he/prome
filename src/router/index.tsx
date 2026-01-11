@@ -1,29 +1,29 @@
 import { createMemoryRouter, type RouteObject } from "react-router-dom";
-import { PromptDetailView } from "@/views/PromptDetailView";
-import { PromptEditView } from "@/views/PromptEditView";
-import { VaultView } from "@/views/VaultView";
-import { WelcomeView } from "@/views/WelcomeView";
+import { PromptDetailPage } from "@/pages/PromptDetailPage";
+import { PromptEditPage } from "@/pages/PromptEditPage";
+import { VaultPage } from "@/pages/VaultPage";
+import { WelcomePage } from "@/pages/WelcomePage";
 
 export const routes: RouteObject[] = [
     {
         path: "/",
-        element: <WelcomeView />,
+        element: <WelcomePage />,
     },
     {
         path: "/vault",
-        element: <VaultView />,
+        element: <VaultPage />,
     },
     {
         path: "/vault/prompts/new",
-        element: <PromptEditView />,
+        element: <PromptEditPage />,
     },
     {
         path: "/vault/prompts/:id",
-        element: <PromptDetailView />,
+        element: <PromptDetailPage />,
     },
     {
         path: "/vault/prompts/:id/edit",
-        element: <PromptEditView />,
+        element: <PromptEditPage />,
     },
 ];
 

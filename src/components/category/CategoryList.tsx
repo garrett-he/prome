@@ -1,8 +1,15 @@
+import { useShallow } from "zustand/react/shallow";
 import { cn } from "@/lib/utils";
 import { useAppStore } from "@/stores/app";
 
 export function CategoryList() {
-    const { categories, selectedCategoryId, setSelectedCategoryId } = useAppStore();
+    const { categories, selectedCategoryId, setSelectedCategoryId } = useAppStore(
+        useShallow((s) => ({
+            categories: s.categories,
+            selectedCategoryId: s.selectedCategoryId,
+            setSelectedCategoryId: s.setSelectedCategoryId,
+        })),
+    );
 
     return (
         <div className="flex flex-col gap-0.5">

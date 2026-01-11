@@ -1,11 +1,20 @@
 import { open } from "@tauri-apps/plugin-dialog";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useShallow } from "zustand/react/shallow";
 import { Button } from "@/components/ui/button";
 import { useAppStore } from "@/stores/app";
 
-export function WelcomePage() {
-    const { recentVaults, fetchRecentVaults, openVault, createVault, removeRecentVault } = useAppStore();
+export function WelcomePanel() {
+    const { recentVaults, fetchRecentVaults, openVault, createVault, removeRecentVault } = useAppStore(
+        useShallow((s) => ({
+            recentVaults: s.recentVaults,
+            fetchRecentVaults: s.fetchRecentVaults,
+            openVault: s.openVault,
+            createVault: s.createVault,
+            removeRecentVault: s.removeRecentVault,
+        })),
+    );
     const navigate = useNavigate();
 
     useEffect(() => {

@@ -1,10 +1,10 @@
-import { WelcomePage } from "@/components/vault/WelcomePage";
+import { WelcomePanel } from "@/components/vault/WelcomePanel";
 import { useAppStore } from "@/stores/app";
 
-export function WelcomeView() {
+export function WelcomePage() {
     const initialized = useAppStore((s) => s.initialized);
 
     if (!initialized) return null;
 
-    return <WelcomePage />;
+    return <WelcomePanel />;
 }

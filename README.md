@@ -71,7 +71,7 @@ prome/
 │   ├── router/               # React Router config
 │   ├── stores/               # Zustand state
 │   ├── types/                # Shared TypeScript types
-│   └── views/                # Route-level views
+│   └── pages/               # Route-level pages
 ├── src-tauri/                # Backend (Rust)
 │   ├── src/
 │   │   ├── commands/         # Tauri command handlers

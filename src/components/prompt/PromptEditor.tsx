@@ -2,6 +2,7 @@ import { ArrowLeft } from "lucide-react";
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { useShallow } from "zustand/react/shallow";
 import { TagInput } from "@/components/tag/TagInput";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,7 +19,9 @@ interface PromptEditorProps {
 
 export function PromptEditor({ prompt }: PromptEditorProps) {
     const navigate = useNavigate();
-    const { categories, tags, fetchTags } = useAppStore();
+    const { categories, tags, fetchTags } = useAppStore(
+        useShallow((s) => ({ categories: s.categories, tags: s.tags, fetchTags: s.fetchTags })),
+    );
     const isEditing = !!prompt;
 
     const [title, setTitle] = useState(prompt?.title ?? "");

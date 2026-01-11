@@ -1,5 +1,6 @@
 import { open } from "@tauri-apps/plugin-dialog";
 import { useNavigate } from "react-router-dom";
+import { useShallow } from "zustand/react/shallow";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -10,7 +11,15 @@ import {
 import { useAppStore } from "@/stores/app";
 
 export function VaultSwitcher() {
-    const { currentVault, recentVaults, openVault, createVault, closeVault } = useAppStore();
+    const { currentVault, recentVaults, openVault, createVault, closeVault } = useAppStore(
+        useShallow((s) => ({
+            currentVault: s.currentVault,
+            recentVaults: s.recentVaults,
+            openVault: s.openVault,
+            createVault: s.createVault,
+            closeVault: s.closeVault,
+        })),
+    );
     const navigate = useNavigate();
 
     const handleNew = async () => {

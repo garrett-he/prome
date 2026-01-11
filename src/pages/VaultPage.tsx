@@ -6,19 +6,36 @@ import { promptList } from "@/lib/invoke";
 import { useAppStore } from "@/stores/app";
 import type { PromptSummary } from "@/types";
 
-export function VaultView() {
-    const { currentVault, selectedCategoryId, selectedTagIds, searchQuery, sortBy } = useAppStore();
+export function VaultPage() {
+    const currentVault = useAppStore((s) => s.currentVault);
+    const selectedCategoryId = useAppStore((s) => s.selectedCategoryId);
+    const selectedTagIds = useAppStore((s) => s.selectedTagIds);
+    const searchQuery = useAppStore((s) => s.searchQuery);
+    const sortBy = useAppStore((s) => s.sortBy);
     const [prompts, setPrompts] = useState<PromptSummary[]>([]);
+    const [loadError, setLoadError] = useState(false);
 
     useEffect(() => {
         if (!currentVault) return;
 
+        let cancelled = false;
+        setLoadError(false);
         promptList({
             category_id: selectedCategoryId,
             tag_ids: selectedTagIds.length > 0 ? selectedTagIds : undefined,
             search: searchQuery || undefined,
             sort: sortBy,
-        }).then((result) => setPrompts(result.items));
+        })
+            .then((result) => {
+                if (!cancelled) setPrompts(result.items);
+            })
+            .catch(() => {
+                if (!cancelled) setLoadError(true);
+            });
+
+        return () => {
+            cancelled = true;
+        };
     }, [currentVault, selectedCategoryId, selectedTagIds, searchQuery, sortBy]);
 
     if (!currentVault) return null;
@@ -31,7 +48,13 @@ export function VaultView() {
                     <SearchBar />
                 </div>
                 <div className="flex-1 overflow-y-auto p-4">
-                    <PromptGrid prompts={prompts} />
+                    {loadError ? (
+                        <div className="flex flex-1 items-center justify-center text-muted-foreground">
+                            Failed to load prompts.
+                        </div>
+                    ) : (
+                        <PromptGrid prompts={prompts} />
+                    )}
                 </div>
             </main>
         </div>

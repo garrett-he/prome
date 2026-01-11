@@ -1,8 +1,11 @@
+import { useShallow } from "zustand/react/shallow";
 import { cn } from "@/lib/utils";
 import { useAppStore } from "@/stores/app";
 
 export function TagList() {
-    const { tags, selectedTagIds, toggleTagId } = useAppStore();
+    const { tags, selectedTagIds, toggleTagId } = useAppStore(
+        useShallow((s) => ({ tags: s.tags, selectedTagIds: s.selectedTagIds, toggleTagId: s.toggleTagId })),
+    );
 
     if (tags.length === 0) return null;
 

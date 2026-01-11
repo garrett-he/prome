@@ -1,9 +1,17 @@
 import { ArrowLeft, Copy, Pencil, Star, Trash2 } from "lucide-react";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog";
 import { promptCopy, promptDelete, promptToggleFavorite } from "@/lib/invoke";
 import type { PromptDetail as PromptDetailType } from "@/types";
 
@@ -14,6 +22,7 @@ interface PromptDetailProps {
 
 export function PromptDetail({ prompt, onRefresh }: PromptDetailProps) {
     const navigate = useNavigate();
+    const [confirmOpen, setConfirmOpen] = useState(false);
 
     const handleCopy = useCallback(async () => {
         await promptCopy(prompt.id);
@@ -78,7 +87,7 @@ export function PromptDetail({ prompt, onRefresh }: PromptDetailProps) {
                             <Pencil className="mr-1 h-4 w-4" />
                             Edit
                         </Button>
-                        <Button variant="destructive" size="sm" onClick={handleDelete}>
+                        <Button variant="destructive" size="sm" onClick={() => setConfirmOpen(true)}>
                             <Trash2 className="mr-1 h-4 w-4" />
                             Delete
                         </Button>
@@ -116,6 +125,25 @@ export function PromptDetail({ prompt, onRefresh }: PromptDetailProps) {
                 Created {prompt.created_at} &middot; Updated {prompt.updated_at} &middot; Used {prompt.usage_count}{" "}
                 times
             </div>
+
+            <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Delete prompt</DialogTitle>
+                        <DialogDescription>
+                            Are you sure you want to delete &ldquo;{prompt.title}&rdquo;? This action cannot be undone.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter>
+                        <Button variant="outline" onClick={() => setConfirmOpen(false)}>
+                            Cancel
+                        </Button>
+                        <Button variant="destructive" onClick={handleDelete}>
+                            Delete
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </div>
     );
 }

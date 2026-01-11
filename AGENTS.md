@@ -26,7 +26,7 @@ Prome is a Tauri v2 desktop app for managing personal AI prompts. Frontend is Re
 ### Frontend (`src/`)
 
 - `components/` - UI components grouped by domain (category, layout, prompt, tag, ui, vault).
-- `views/` - Route-level components rendered by React Router.
+- `pages/` - Route-level page components rendered by React Router.
 - `stores/app.ts` - Single Zustand store holding vault state, filters, and cached categories/tags.
 - `lib/invoke.ts` - Typed wrappers around `@tauri-apps/api/core` `invoke()`. Always use these instead of calling `invoke` directly.
 - `router/index.tsx` - Uses `createMemoryRouter`. Initial path is set after vault initialization to avoid UI flash.

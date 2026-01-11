@@ -7,15 +7,6 @@ vi.mock("@tauri-apps/api/core", () => ({
     invoke: vi.fn().mockResolvedValue([]),
 }));
 
-// Replace BrowserRouter with MemoryRouter for jsdom compatibility.
-vi.mock("react-router-dom", async () => {
-    const actual = await vi.importActual<typeof import("react-router-dom")>("react-router-dom");
-    return {
-        ...actual,
-        BrowserRouter: actual.MemoryRouter,
-    };
-});
-
 describe("App", () => {
     it("renders without errors", () => {
         const { container } = render(<App />);
