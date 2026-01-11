@@ -1,3 +1,3 @@
 declare module "@tauri-apps/api/core" {
-    export function invoke(cmd: "greet", args: { name: string }): Promise<string>;
+    export function invoke<T = unknown>(cmd: string, args?: Record<string, unknown>): Promise<T>;
 }
