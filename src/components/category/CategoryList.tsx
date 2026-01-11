@@ -1,8 +1,10 @@
+import { useTranslation } from "react-i18next";
 import { useShallow } from "zustand/react/shallow";
 import { cn } from "@/lib/utils";
 import { useAppStore } from "@/stores/app";
 
 export function CategoryList() {
+    const { t } = useTranslation();
     const { categories, selectedCategoryId, setSelectedCategoryId } = useAppStore(
         useShallow((s) => ({
             categories: s.categories,
@@ -21,7 +23,7 @@ export function CategoryList() {
                 )}
                 onClick={() => setSelectedCategoryId(null)}
             >
-                All
+                {t("category.all")}
             </button>
             {categories.map((cat) => (
                 <button

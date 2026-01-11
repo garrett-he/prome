@@ -1,6 +1,7 @@
 import { createMemoryRouter, type RouteObject } from "react-router-dom";
 import { PromptDetailPage } from "@/pages/PromptDetailPage";
 import { PromptEditPage } from "@/pages/PromptEditPage";
+import { SettingsPage } from "@/pages/SettingsPage";
 import { VaultPage } from "@/pages/VaultPage";
 import { WelcomePage } from "@/pages/WelcomePage";
 
@@ -8,6 +9,10 @@ export const routes: RouteObject[] = [
     {
         path: "/",
         element: <WelcomePage />,
+    },
+    {
+        path: "/settings",
+        element: <SettingsPage />,
     },
     {
         path: "/vault",

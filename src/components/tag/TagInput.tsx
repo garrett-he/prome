@@ -1,4 +1,5 @@
 import { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import type { Tag } from "@/types";
@@ -12,9 +13,10 @@ interface TagInputProps {
 }
 
 export function TagInput({ availableTags, selectedTagIds, onChange, onCreateTag, className }: TagInputProps) {
+    const { t } = useTranslation();
     const [inputValue, setInputValue] = useState("");
 
-    const selectedTags = availableTags.filter((t) => selectedTagIds.includes(t.id));
+    const selectedTags = availableTags.filter((availTag) => selectedTagIds.includes(availTag.id));
 
     const handleKeyDown = useCallback(
         async (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -56,7 +58,7 @@ export function TagInput({ availableTags, selectedTagIds, onChange, onCreateTag,
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Add tag..."
+                placeholder={t("tagInput.placeholder")}
                 className="min-w-[100px] border-0 p-0 shadow-none focus-visible:ring-0"
             />
         </div>

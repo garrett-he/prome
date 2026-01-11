@@ -1,5 +1,6 @@
 import { ArrowLeft, Copy, Pencil, Star, Trash2 } from "lucide-react";
 import { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
@@ -21,13 +22,14 @@ interface PromptDetailProps {
 }
 
 export function PromptDetail({ prompt, onRefresh }: PromptDetailProps) {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const [confirmOpen, setConfirmOpen] = useState(false);
 
     const handleCopy = useCallback(async () => {
         await promptCopy(prompt.id);
-        toast.success("Prompt copied to clipboard");
-    }, [prompt.id]);
+        toast.success(t("promptDetail.copy"));
+    }, [prompt.id, t]);
 
     const handleFavorite = useCallback(async () => {
         await promptToggleFavorite(prompt.id);
@@ -36,9 +38,9 @@ export function PromptDetail({ prompt, onRefresh }: PromptDetailProps) {
 
     const handleDelete = useCallback(async () => {
         await promptDelete(prompt.id);
-        toast.success("Prompt deleted");
+        toast.success(t("promptDetail.delete"));
         navigate("/vault");
-    }, [prompt.id, navigate]);
+    }, [prompt.id, navigate, t]);
 
     return (
         <div className="w-full p-6">
@@ -52,7 +54,7 @@ export function PromptDetail({ prompt, onRefresh }: PromptDetailProps) {
                         onClick={() => navigate("/vault")}
                     >
                         <ArrowLeft className="h-4 w-4" />
-                        Back
+                        {t("common.back")}
                     </button>
                     {prompt.category_name && (
                         <>
@@ -71,13 +73,13 @@ export function PromptDetail({ prompt, onRefresh }: PromptDetailProps) {
                     <div className="flex gap-2">
                         <Button variant="outline" size="sm" onClick={handleCopy}>
                             <Copy className="mr-1 h-4 w-4" />
-                            Copy
+                            {t("promptDetail.copy")}
                         </Button>
                         <Button variant="outline" size="sm" onClick={handleFavorite}>
                             <Star
                                 className={`mr-1 h-4 w-4 ${prompt.favorite ? "fill-yellow-400 text-yellow-400" : ""}`}
                             />
-                            {prompt.favorite ? "Unfavorite" : "Favorite"}
+                            {prompt.favorite ? t("promptDetail.unfavorite") : t("promptDetail.favorite")}
                         </Button>
                         <Button
                             variant="outline"
@@ -85,11 +87,11 @@ export function PromptDetail({ prompt, onRefresh }: PromptDetailProps) {
                             onClick={() => navigate(`/vault/prompts/${prompt.id}/edit`)}
                         >
                             <Pencil className="mr-1 h-4 w-4" />
-                            Edit
+                            {t("promptDetail.edit")}
                         </Button>
                         <Button variant="destructive" size="sm" onClick={() => setConfirmOpen(true)}>
                             <Trash2 className="mr-1 h-4 w-4" />
-                            Delete
+                            {t("promptDetail.delete")}
                         </Button>
                     </div>
                 </div>
@@ -122,24 +124,25 @@ export function PromptDetail({ prompt, onRefresh }: PromptDetailProps) {
 
             {/* Meta */}
             <div className="mt-4 text-xs text-muted-foreground">
-                Created {prompt.created_at} &middot; Updated {prompt.updated_at} &middot; Used {prompt.usage_count}{" "}
-                times
+                {t("promptDetail.created", { date: prompt.created_at })} &middot;
+                {t("promptDetail.updated", { date: prompt.updated_at })} &middot;
+                {t("promptDetail.used", { count: prompt.usage_count })}
             </div>
 
             <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
                 <DialogContent>
                     <DialogHeader>
-                        <DialogTitle>Delete prompt</DialogTitle>
+                        <DialogTitle>{t("promptDetail.deleteTitle")}</DialogTitle>
                         <DialogDescription>
-                            Are you sure you want to delete &ldquo;{prompt.title}&rdquo;? This action cannot be undone.
+                            {t("promptDetail.deleteDescription", { title: prompt.title })}
                         </DialogDescription>
                     </DialogHeader>
                     <DialogFooter>
                         <Button variant="outline" onClick={() => setConfirmOpen(false)}>
-                            Cancel
+                            {t("common.cancel")}
                         </Button>
                         <Button variant="destructive" onClick={handleDelete}>
-                            Delete
+                            {t("common.delete")}
                         </Button>
                     </DialogFooter>
                 </DialogContent>

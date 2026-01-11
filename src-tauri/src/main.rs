@@ -6,7 +6,7 @@ mod config;
 mod db;
 mod error;
 
-use commands::{category, prompt, tag, vault};
+use commands::{category, config as config_commands, prompt, tag, vault};
 use db::connection::DbState;
 use std::sync::Mutex;
 use tauri::Manager;
@@ -17,8 +17,11 @@ fn main() {
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_clipboard_manager::init())
         .manage(DbState::new())
-        .manage(Mutex::new(config::AppConfig::default()))
+        .manage(Mutex::new(config::AppConfig::load().unwrap_or_default()))
         .invoke_handler(tauri::generate_handler![
+            // Config
+            config_commands::config_get,
+            config_commands::config_set_language,
             // Vault
             vault::vault_create,
             vault::vault_open,

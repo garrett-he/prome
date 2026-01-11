@@ -1,11 +1,13 @@
 import { open } from "@tauri-apps/plugin-dialog";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { useShallow } from "zustand/react/shallow";
 import { Button } from "@/components/ui/button";
 import { useAppStore } from "@/stores/app";
 
 export function WelcomePanel() {
+    const { t } = useTranslation();
     const { recentVaults, fetchRecentVaults, openVault, createVault, removeRecentVault } = useAppStore(
         useShallow((s) => ({
             recentVaults: s.recentVaults,
@@ -53,19 +55,19 @@ export function WelcomePanel() {
     return (
         <main className="flex min-h-screen flex-col items-center justify-center bg-background p-8">
             <div className="w-full max-w-md text-center">
-                <h1 className="mb-2 text-4xl font-bold">Prome</h1>
-                <p className="mb-8 text-muted-foreground">Manage your personal AI Prompt library</p>
+                <h1 className="mb-2 text-4xl font-bold">{t("welcome.title")}</h1>
+                <p className="mb-8 text-muted-foreground">{t("welcome.subtitle")}</p>
 
                 <div className="mb-8 flex justify-center gap-3">
-                    <Button onClick={handleNewVault}>New Vault</Button>
+                    <Button onClick={handleNewVault}>{t("welcome.newVault")}</Button>
                     <Button variant="outline" onClick={handleOpenVault}>
-                        Open Vault
+                        {t("welcome.openVault")}
                     </Button>
                 </div>
 
                 {recentVaults.length > 0 && (
                     <div className="border-t pt-6 text-left">
-                        <p className="mb-3 text-sm text-muted-foreground">Recent Vaults</p>
+                        <p className="mb-3 text-sm text-muted-foreground">{t("welcome.recent")}</p>
                         <div className="flex flex-col gap-2">
                             {recentVaults.map((vault) => (
                                 <button
@@ -82,7 +84,9 @@ export function WelcomePanel() {
                                         <div className="font-medium">{vault.name}</div>
                                         <div className="text-xs text-muted-foreground">{vault.path}</div>
                                     </div>
-                                    <div className="text-sm text-muted-foreground">{vault.prompt_count} prompts</div>
+                                    <div className="text-sm text-muted-foreground">
+                                        {t("welcome.promptCount", { count: vault.prompt_count })}
+                                    </div>
                                 </button>
                             ))}
                         </div>

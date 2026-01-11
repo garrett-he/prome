@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import type { PromptSummary } from "@/types";
 import { PromptCard } from "./PromptCard";
 
@@ -6,11 +7,11 @@ interface PromptGridProps {
 }
 
 export function PromptGrid({ prompts }: PromptGridProps) {
+    const { t } = useTranslation();
+
     if (prompts.length === 0) {
         return (
-            <div className="flex flex-1 items-center justify-center text-muted-foreground">
-                No prompts found. Create one to get started!
-            </div>
+            <div className="flex flex-1 items-center justify-center text-muted-foreground">{t("promptGrid.empty")}</div>
         );
     }
 

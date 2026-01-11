@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { PromptEditor } from "@/components/prompt/PromptEditor";
 import { promptGet } from "@/lib/invoke";
@@ -6,6 +7,7 @@ import { useAppStore } from "@/stores/app";
 import type { PromptDetail } from "@/types";
 
 export function PromptEditPage() {
+    const { t } = useTranslation();
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
     const currentVault = useAppStore((s) => s.currentVault);
@@ -22,7 +24,9 @@ export function PromptEditPage() {
     if (!currentVault) return <Navigate to="/" replace />;
 
     if (!isNew && !prompt) {
-        return <div className="flex flex-1 items-center justify-center text-muted-foreground">Loading...</div>;
+        return (
+            <div className="flex flex-1 items-center justify-center text-muted-foreground">{t("common.loading")}</div>
+        );
     }
 
     return (

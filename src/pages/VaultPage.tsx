@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { SearchBar } from "@/components/layout/SearchBar";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { PromptGrid } from "@/components/prompt/PromptGrid";
@@ -7,6 +8,7 @@ import { useAppStore } from "@/stores/app";
 import type { PromptSummary } from "@/types";
 
 export function VaultPage() {
+    const { t } = useTranslation();
     const currentVault = useAppStore((s) => s.currentVault);
     const selectedCategoryId = useAppStore((s) => s.selectedCategoryId);
     const selectedTagIds = useAppStore((s) => s.selectedTagIds);
@@ -50,7 +52,7 @@ export function VaultPage() {
                 <div className="flex-1 overflow-y-auto p-4">
                     {loadError ? (
                         <div className="flex flex-1 items-center justify-center text-muted-foreground">
-                            Failed to load prompts.
+                            {t("vaultPage.loadFailed")}
                         </div>
                     ) : (
                         <PromptGrid prompts={prompts} />

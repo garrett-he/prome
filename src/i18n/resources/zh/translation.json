@@ -1,0 +1,82 @@
+{
+    "common": {
+        "back": "返回",
+        "save": "保存",
+        "cancel": "取消",
+        "loading": "加载中...",
+        "delete": "删除"
+    },
+    "sidebar": {
+        "categories": "分类",
+        "tags": "标签"
+    },
+    "category": {
+        "all": "全部"
+    },
+    "promptGrid": {
+        "empty": "没有找到提示词，创建一个开始吧！"
+    },
+    "promptDetail": {
+        "copy": "复制",
+        "favorite": "收藏",
+        "unfavorite": "取消收藏",
+        "edit": "编辑",
+        "delete": "删除",
+        "deleteTitle": "删除提示词",
+        "deleteDescription": "确定要删除“{{title}}”吗？此操作无法撤销。",
+        "created": "创建于 {{date}}",
+        "updated": "更新于 {{date}}",
+        "used": "已使用 {{count}} 次"
+    },
+    "promptEditor": {
+        "title": "标题",
+        "description": "描述",
+        "category": "分类",
+        "tags": "标签",
+        "content": "提示词内容",
+        "titleRequired": "标题为必填项",
+        "contentRequired": "内容为必填项",
+        "titlePlaceholder": "提示词标题",
+        "descriptionPlaceholder": "简短描述",
+        "contentPlaceholder": "在此输入提示词...",
+        "selectCategory": "请选择分类",
+        "none": "无",
+        "updated": "提示词已更新",
+        "created": "提示词已创建",
+        "editTitle": "编辑提示词",
+        "newTitle": "新建提示词"
+    },
+    "search": {
+        "placeholder": "搜索提示词...",
+        "newPrompt": "新建提示词",
+        "sortUpdated": "最近更新",
+        "sortCreated": "创建日期",
+        "sortTitle": "标题 A-Z",
+        "sortUsage": "使用最多"
+    },
+    "vaultSwitcher": {
+        "newVault": "新建 Vault...",
+        "openVault": "打开 Vault...",
+        "closeVault": "关闭当前 Vault"
+    },
+    "welcome": {
+        "title": "Prome",
+        "subtitle": "管理你的个人 AI 提示词库",
+        "newVault": "新建 Vault",
+        "openVault": "打开 Vault",
+        "recent": "最近使用的 Vault",
+        "promptCount": "{{count}} 条提示词"
+    },
+    "tagInput": {
+        "placeholder": "添加标签..."
+    },
+    "settings": {
+        "title": "设置",
+        "language": "语言",
+        "languageSaved": "语言已保存",
+        "languageSaveFailed": "语言保存失败"
+    },
+    "vaultPage": {
+        "loadFailed": "提示词加载失败。"
+    }
+}

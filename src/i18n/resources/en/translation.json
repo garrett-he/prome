@@ -1,0 +1,82 @@
+{
+    "common": {
+        "back": "Back",
+        "save": "Save",
+        "cancel": "Cancel",
+        "loading": "Loading...",
+        "delete": "Delete"
+    },
+    "sidebar": {
+        "categories": "Categories",
+        "tags": "Tags"
+    },
+    "category": {
+        "all": "All"
+    },
+    "promptGrid": {
+        "empty": "No prompts found. Create one to get started!"
+    },
+    "promptDetail": {
+        "copy": "Copy",
+        "favorite": "Favorite",
+        "unfavorite": "Unfavorite",
+        "edit": "Edit",
+        "delete": "Delete",
+        "deleteTitle": "Delete prompt",
+        "deleteDescription": "Are you sure you want to delete \"{{title}}\"? This action cannot be undone.",
+        "created": "Created {{date}}",
+        "updated": "Updated {{date}}",
+        "used": "Used {{count}} times"
+    },
+    "promptEditor": {
+        "title": "Title",
+        "description": "Description",
+        "category": "Category",
+        "tags": "Tags",
+        "content": "Prompt Content",
+        "titleRequired": "Title is required",
+        "contentRequired": "Content is required",
+        "titlePlaceholder": "Prompt title",
+        "descriptionPlaceholder": "Short description",
+        "contentPlaceholder": "Enter your prompt...",
+        "selectCategory": "Select category",
+        "none": "None",
+        "updated": "Prompt updated",
+        "created": "Prompt created",
+        "editTitle": "Edit Prompt",
+        "newTitle": "New Prompt"
+    },
+    "search": {
+        "placeholder": "Search prompts...",
+        "newPrompt": "New Prompt",
+        "sortUpdated": "Last Updated",
+        "sortCreated": "Date Created",
+        "sortTitle": "Title A-Z",
+        "sortUsage": "Most Used"
+    },
+    "vaultSwitcher": {
+        "newVault": "New Vault...",
+        "openVault": "Open Vault...",
+        "closeVault": "Close Current Vault"
+    },
+    "welcome": {
+        "title": "Prome",
+        "subtitle": "Manage your personal AI Prompt library",
+        "newVault": "New Vault",
+        "openVault": "Open Vault",
+        "recent": "Recent Vaults",
+        "promptCount": "{{count}} prompts"
+    },
+    "tagInput": {
+        "placeholder": "Add tag..."
+    },
+    "settings": {
+        "title": "Settings",
+        "language": "Language",
+        "languageSaved": "Language saved",
+        "languageSaveFailed": "Failed to save language"
+    },
+    "vaultPage": {
+        "loadFailed": "Failed to load prompts."
+    }
+}

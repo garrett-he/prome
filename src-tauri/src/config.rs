@@ -4,16 +4,31 @@ use crate::db::models::VaultInfo;
 use std::fs;
 use std::path::PathBuf;
 
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize, Default)]
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct AppConfig {
     pub recent_vaults: Vec<VaultInfo>,
+    #[serde(default = "default_language")]
+    pub language: String,
+}
+
+fn default_language() -> String {
+    "en".to_string()
+}
+
+impl Default for AppConfig {
+    fn default() -> Self {
+        Self {
+            recent_vaults: Vec::new(),
+            language: default_language(),
+        }
+    }
 }
 
 impl AppConfig {
     pub fn config_path() -> Result<PathBuf, AppError> {
-        let dir = dirs::config_dir()
-            .ok_or_else(|| AppError::Config("Cannot determine config directory".to_string()))?;
-        let prome_dir = dir.join("prome");
+        let home = dirs::home_dir()
+            .ok_or_else(|| AppError::Config("Cannot determine home directory".to_string()))?;
+        let prome_dir = home.join(".prome");
         fs::create_dir_all(&prome_dir)?;
         Ok(prome_dir.join("config.json"))
     }

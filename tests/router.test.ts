@@ -1,34 +1,32 @@
 import { describe, expect, it } from "vitest";
 import router, { routes } from "../src/router/index";
 
+const expectedPaths = [
+    "/",
+    "/settings",
+    "/vault",
+    "/vault/prompts/new",
+    "/vault/prompts/:id",
+    "/vault/prompts/:id/edit",
+];
+
 describe("router", () => {
     it("creates router with all routes", () => {
         expect(router).toBeDefined();
-        expect(routes).toHaveLength(5);
+        expect(routes).toHaveLength(expectedPaths.length);
     });
 
-    it("welcome route has correct path", () => {
-        expect(routes[0].path).toBe("/");
-        expect(routes[0].element).toBeDefined();
+    it("defines every expected route", () => {
+        const paths = routes.map((r) => r.path);
+        for (const expected of expectedPaths) {
+            expect(paths).toContain(expected);
+        }
     });
 
-    it("vault route has correct path", () => {
-        expect(routes[1].path).toBe("/vault");
-        expect(routes[1].element).toBeDefined();
-    });
-
-    it("new prompt route has correct path", () => {
-        expect(routes[2].path).toBe("/vault/prompts/new");
-        expect(routes[2].element).toBeDefined();
-    });
-
-    it("prompt detail route has correct path", () => {
-        expect(routes[3].path).toBe("/vault/prompts/:id");
-        expect(routes[3].element).toBeDefined();
-    });
-
-    it("prompt edit route has correct path", () => {
-        expect(routes[4].path).toBe("/vault/prompts/:id/edit");
-        expect(routes[4].element).toBeDefined();
+    it("assigns an element to every route", () => {
+        for (const route of routes) {
+            expect(route.path).toBeDefined();
+            expect(route.element).toBeDefined();
+        }
     });
 });

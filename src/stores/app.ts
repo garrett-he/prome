@@ -1,8 +1,14 @@
 import { create } from "zustand";
+import i18n, { detectSystemLanguage, isLanguage, type Language } from "@/i18n";
 import * as invoke from "@/lib/invoke";
 import type { Category, Tag, VaultInfo } from "@/types";
 
 interface AppState {
+    // Language
+    language: Language;
+    setLanguage: (lang: Language) => Promise<void>;
+    initLanguage: () => Promise<void>;
+
     // Vault
     currentVault: VaultInfo | null;
     recentVaults: VaultInfo[];
@@ -33,6 +39,27 @@ interface AppState {
 }
 
 export const useAppStore = create<AppState>((set, get) => ({
+    // Language
+    language: detectSystemLanguage(),
+
+    setLanguage: async (lang) => {
+        set({ language: lang });
+        await i18n.changeLanguage(lang);
+        await invoke.configSetLanguage(lang);
+    },
+
+    initLanguage: async () => {
+        let lang: Language = detectSystemLanguage();
+        try {
+            const config = await invoke.configGet();
+            if (isLanguage(config.language)) lang = config.language;
+        } catch {
+            // fall back to system language
+        }
+        await i18n.changeLanguage(lang);
+        set({ language: lang });
+    },
+
     // Vault
     currentVault: null,
     recentVaults: [],

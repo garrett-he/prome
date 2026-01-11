@@ -101,6 +101,11 @@ export interface VaultInfo {
     prompt_count: number;
 }
 
+export interface AppConfig {
+    recent_vaults: VaultInfo[];
+    language: string;
+}
+
 export interface AppError {
     kind: string;
     message: string;

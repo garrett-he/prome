@@ -6,14 +6,16 @@ import router, { setInitialPath } from "./router";
 
 export function App() {
     const initVault = useAppStore((s) => s.initVault);
+    const initLanguage = useAppStore((s) => s.initLanguage);
 
     useEffect(() => {
         (async () => {
+            await initLanguage();
             await initVault();
             const { currentVault } = useAppStore.getState();
             setInitialPath(currentVault ? "/vault" : "/");
         })();
-    }, [initVault]);
+    }, [initVault, initLanguage]);
 
     return (
         <>

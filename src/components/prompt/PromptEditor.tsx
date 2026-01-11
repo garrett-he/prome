@@ -1,5 +1,6 @@
 import { ArrowLeft } from "lucide-react";
 import { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useShallow } from "zustand/react/shallow";
@@ -18,6 +19,7 @@ interface PromptEditorProps {
 }
 
 export function PromptEditor({ prompt }: PromptEditorProps) {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const { categories, tags, fetchTags } = useAppStore(
         useShallow((s) => ({ categories: s.categories, tags: s.tags, fetchTags: s.fetchTags })),
@@ -42,8 +44,8 @@ export function PromptEditor({ prompt }: PromptEditorProps) {
 
     const handleSave = useCallback(async () => {
         const newErrors: { title?: string; content?: string } = {};
-        if (!title.trim()) newErrors.title = "Title is required";
-        if (!content.trim()) newErrors.content = "Content is required";
+        if (!title.trim()) newErrors.title = t("promptEditor.titleRequired");
+        if (!content.trim()) newErrors.content = t("promptEditor.contentRequired");
         if (newErrors.title || newErrors.content) {
             setErrors(newErrors);
             return;
@@ -60,7 +62,7 @@ export function PromptEditor({ prompt }: PromptEditorProps) {
                 category_id: catId,
                 tag_ids: selectedTagIds,
             });
-            toast.success("Prompt updated");
+            toast.success(t("promptEditor.updated"));
             navigate(`/vault/prompts/${prompt.id}`);
         } else {
             const result = await promptCreate({
@@ -70,10 +72,10 @@ export function PromptEditor({ prompt }: PromptEditorProps) {
                 category_id: catId ?? undefined,
                 tag_ids: selectedTagIds.length > 0 ? selectedTagIds : undefined,
             });
-            toast.success("Prompt created");
+            toast.success(t("promptEditor.created"));
             navigate(`/vault/prompts/${result.id}`);
         }
-    }, [title, content, description, categoryId, selectedTagIds, isEditing, prompt, navigate]);
+    }, [title, content, description, categoryId, selectedTagIds, isEditing, prompt, navigate, t]);
 
     return (
         <div className="w-full p-6">
@@ -84,15 +86,17 @@ export function PromptEditor({ prompt }: PromptEditorProps) {
                     onClick={() => navigate(-1)}
                 >
                     <ArrowLeft className="h-4 w-4" />
-                    Back
+                    {t("common.back")}
                 </button>
             </div>
 
-            <h1 className="mb-6 text-2xl font-bold">{isEditing ? "Edit Prompt" : "New Prompt"}</h1>
+            <h1 className="mb-6 text-2xl font-bold">
+                {isEditing ? t("promptEditor.editTitle") : t("promptEditor.newTitle")}
+            </h1>
 
             <div className="flex flex-col gap-4">
                 <div>
-                    <Label htmlFor="title">Title</Label>
+                    <Label htmlFor="title">{t("promptEditor.title")}</Label>
                     <Input
                         id="title"
                         className="w-full"
@@ -101,30 +105,30 @@ export function PromptEditor({ prompt }: PromptEditorProps) {
                             setTitle(e.target.value);
                             setErrors((prev) => ({ ...prev, title: undefined }));
                         }}
-                        placeholder="Prompt title"
+                        placeholder={t("promptEditor.titlePlaceholder")}
                     />
                     {errors.title && <p className="mt-1 text-sm text-destructive">{errors.title}</p>}
                 </div>
 
                 <div>
-                    <Label htmlFor="description">Description</Label>
+                    <Label htmlFor="description">{t("promptEditor.description")}</Label>
                     <Input
                         id="description"
                         className="w-full"
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
-                        placeholder="Short description"
+                        placeholder={t("promptEditor.descriptionPlaceholder")}
                     />
                 </div>
 
                 <div>
-                    <Label>Category</Label>
+                    <Label>{t("promptEditor.category")}</Label>
                     <Select value={categoryId} onValueChange={setCategoryId}>
                         <SelectTrigger className="w-full">
-                            <SelectValue placeholder="Select category" />
+                            <SelectValue placeholder={t("promptEditor.selectCategory")} />
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="none">None</SelectItem>
+                            <SelectItem value="none">{t("promptEditor.none")}</SelectItem>
                             {categories.map((cat) => (
                                 <SelectItem key={cat.id} value={cat.id.toString()}>
                                     {cat.name}
@@ -135,7 +139,7 @@ export function PromptEditor({ prompt }: PromptEditorProps) {
                 </div>
 
                 <div>
-                    <Label>Tags</Label>
+                    <Label>{t("promptEditor.tags")}</Label>
                     <TagInput
                         className="w-full"
                         availableTags={tags}
@@ -146,7 +150,7 @@ export function PromptEditor({ prompt }: PromptEditorProps) {
                 </div>
 
                 <div>
-                    <Label htmlFor="content">Prompt Content</Label>
+                    <Label htmlFor="content">{t("promptEditor.content")}</Label>
                     <Textarea
                         id="content"
                         className="w-full min-h-[200px] font-mono"
@@ -155,15 +159,15 @@ export function PromptEditor({ prompt }: PromptEditorProps) {
                             setContent(e.target.value);
                             setErrors((prev) => ({ ...prev, content: undefined }));
                         }}
-                        placeholder="Enter your prompt..."
+                        placeholder={t("promptEditor.contentPlaceholder")}
                     />
                     {errors.content && <p className="mt-1 text-sm text-destructive">{errors.content}</p>}
                 </div>
 
                 <div className="flex gap-3">
-                    <Button onClick={handleSave}>Save</Button>
+                    <Button onClick={handleSave}>{t("common.save")}</Button>
                     <Button variant="outline" onClick={() => navigate(-1)}>
-                        Cancel
+                        {t("common.cancel")}
                     </Button>
                 </div>
             </div>

@@ -1,5 +1,6 @@
 import { invoke } from "@tauri-apps/api/core";
 import type {
+    AppConfig,
     Category,
     CategoryCreate,
     CategoryUpdate,
@@ -14,6 +15,11 @@ import type {
     TagUpdate,
     VaultInfo,
 } from "@/types";
+
+// Config
+export const configGet = (): Promise<AppConfig> => invoke("config_get");
+
+export const configSetLanguage = (language: string): Promise<AppConfig> => invoke("config_set_language", { language });
 
 // Vault
 export const vaultCreate = (path: string): Promise<VaultInfo> => invoke("vault_create", { path });

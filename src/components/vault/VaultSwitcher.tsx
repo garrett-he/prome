@@ -1,4 +1,5 @@
 import { open } from "@tauri-apps/plugin-dialog";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { useShallow } from "zustand/react/shallow";
 import {
@@ -11,6 +12,7 @@ import {
 import { useAppStore } from "@/stores/app";
 
 export function VaultSwitcher() {
+    const { t } = useTranslation();
     const { currentVault, recentVaults, openVault, createVault, closeVault } = useAppStore(
         useShallow((s) => ({
             currentVault: s.currentVault,
@@ -70,11 +72,11 @@ export function VaultSwitcher() {
                         </DropdownMenuItem>
                     ))}
                 {recentVaults.length > 1 && <DropdownMenuSeparator />}
-                <DropdownMenuItem onClick={handleNew}>New Vault...</DropdownMenuItem>
-                <DropdownMenuItem onClick={handleOpen}>Open Vault...</DropdownMenuItem>
+                <DropdownMenuItem onClick={handleNew}>{t("vaultSwitcher.newVault")}</DropdownMenuItem>
+                <DropdownMenuItem onClick={handleOpen}>{t("vaultSwitcher.openVault")}</DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleClose} className="text-destructive">
-                    Close Current Vault
+                    {t("vaultSwitcher.closeVault")}
                 </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
