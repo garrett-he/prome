@@ -11,7 +11,19 @@
         "tags": "Tags"
     },
     "category": {
-        "all": "All"
+        "all": "All",
+        "add": "Add category",
+        "rename": "Rename",
+        "renameFailed": "Failed to rename category",
+        "color": "Color",
+        "colorFailed": "Failed to update color",
+        "delete": "Delete",
+        "deleted": "Category deleted",
+        "deleteFailed": "Failed to delete category",
+        "deleteTitle": "Delete category",
+        "deleteDescription": "Delete '{{name}}'? Prompts in this category will not be deleted.",
+        "createFailed": "Failed to create category",
+        "namePlaceholder": "Category name"
     },
     "promptGrid": {
         "empty": "No prompts found. Create one to get started!"

@@ -11,7 +11,19 @@
         "tags": "标签"
     },
     "category": {
-        "all": "全部"
+        "all": "全部",
+        "add": "添加分类",
+        "rename": "重命名",
+        "renameFailed": "重命名失败",
+        "color": "颜色",
+        "colorFailed": "颜色修改失败",
+        "delete": "删除",
+        "deleted": "分类已删除",
+        "deleteFailed": "删除失败",
+        "deleteTitle": "删除分类",
+        "deleteDescription": "确定要删除“{{name}}”吗？分类下的提示词不会被删除。",
+        "createFailed": "创建分类失败",
+        "namePlaceholder": "分类名称"
     },
     "promptGrid": {
         "empty": "没有找到提示词，创建一个开始吧！"

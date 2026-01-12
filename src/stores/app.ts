@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import i18n, { detectSystemLanguage, isLanguage, type Language } from "@/i18n";
 import * as invoke from "@/lib/invoke";
-import type { Category, Tag, VaultInfo } from "@/types";
+import type { Category, CategoryUpdate, Tag, VaultInfo } from "@/types";
 
 interface AppState {
     // Language
@@ -36,6 +36,9 @@ interface AppState {
     tags: Tag[];
     fetchCategories: () => Promise<void>;
     fetchTags: () => Promise<void>;
+    createCategory: (name: string, color?: string | null) => Promise<Category | undefined>;
+    updateCategory: (params: CategoryUpdate) => Promise<void>;
+    deleteCategory: (id: number) => Promise<void>;
 }
 
 export const useAppStore = create<AppState>((set, get) => ({
@@ -150,5 +153,24 @@ export const useAppStore = create<AppState>((set, get) => ({
     fetchTags: async () => {
         const tags = await invoke.tagList();
         set({ tags });
+    },
+
+    createCategory: async (name, color) => {
+        const category = await invoke.categoryCreate({ name, color });
+        await get().fetchCategories();
+        return category;
+    },
+
+    updateCategory: async (params) => {
+        await invoke.categoryUpdate(params);
+        await get().fetchCategories();
+    },
+
+    deleteCategory: async (id) => {
+        await invoke.categoryDelete(id);
+        if (get().selectedCategoryId === id) {
+            set({ selectedCategoryId: null });
+        }
+        await get().fetchCategories();
     },
 }));
